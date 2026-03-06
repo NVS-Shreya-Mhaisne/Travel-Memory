@@ -54,26 +54,19 @@ class Client
 
     private const HANDSHAKE_SEPARATOR = '/';
 
-    /** @var string|null */
-    private static $version;
+    private static ?string $version = null;
 
-    /** @var Manager */
-    private $manager;
+    private Manager $manager;
 
-    /** @var ReadConcern */
-    private $readConcern;
+    private ReadConcern $readConcern;
 
-    /** @var ReadPreference */
-    private $readPreference;
+    private ReadPreference $readPreference;
 
-    /** @var string */
-    private $uri;
+    private string $uri;
 
-    /** @var array */
-    private $typeMap;
+    private array $typeMap;
 
-    /** @var WriteConcern */
-    private $writeConcern;
+    private WriteConcern $writeConcern;
 
     /**
      * Constructs a new Client instance.
@@ -207,7 +200,7 @@ class Client
             $options['typeMap'] = $this->typeMap;
         }
 
-        $server = select_server($this->manager, $options);
+        $server = select_server_for_write($this->manager, $options);
 
         if (! isset($options['writeConcern']) && ! is_in_transaction($options)) {
             $options['writeConcern'] = $this->writeConcern;

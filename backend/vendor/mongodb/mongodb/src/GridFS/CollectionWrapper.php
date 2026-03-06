@@ -18,8 +18,9 @@
 namespace MongoDB\GridFS;
 
 use ArrayIterator;
+use Iterator;
 use MongoDB\Collection;
-use MongoDB\Driver\Cursor;
+use MongoDB\Driver\CursorInterface;
 use MongoDB\Driver\Manager;
 use MongoDB\Driver\ReadPreference;
 use MongoDB\Exception\InvalidArgumentException;
@@ -40,20 +41,15 @@ use function sprintf;
  */
 class CollectionWrapper
 {
-    /** @var string */
-    private $bucketName;
+    private string $bucketName;
 
-    /** @var Collection */
-    private $chunksCollection;
+    private Collection $chunksCollection;
 
-    /** @var string */
-    private $databaseName;
+    private string $databaseName;
 
-    /** @var boolean */
-    private $checkedIndexes = false;
+    private bool $checkedIndexes = false;
 
-    /** @var Collection */
-    private $filesCollection;
+    private Collection $filesCollection;
 
     /**
      * Constructs a GridFS collection wrapper.
@@ -109,8 +105,9 @@ class CollectionWrapper
      *
      * @param mixed   $id        File ID
      * @param integer $fromChunk Starting chunk (inclusive)
+     * @return CursorInterface&Iterator
      */
-    public function findChunksByFileId($id, int $fromChunk = 0): Cursor
+    public function findChunksByFileId($id, int $fromChunk = 0)
     {
         return $this->chunksCollection->find(
             [
@@ -120,7 +117,7 @@ class CollectionWrapper
             [
                 'sort' => ['n' => 1],
                 'typeMap' => ['root' => 'stdClass'],
-            ]
+            ],
         );
     }
 
@@ -158,7 +155,7 @@ class CollectionWrapper
                 'skip' => $skip,
                 'sort' => ['uploadDate' => $sortOrder],
                 'typeMap' => ['root' => 'stdClass'],
-            ]
+            ],
         );
         assert(is_object($file) || $file === null);
 
@@ -174,7 +171,7 @@ class CollectionWrapper
     {
         $file = $this->filesCollection->findOne(
             ['_id' => $id],
-            ['typeMap' => ['root' => 'stdClass']]
+            ['typeMap' => ['root' => 'stdClass']],
         );
         assert(is_object($file) || $file === null);
 
@@ -187,7 +184,7 @@ class CollectionWrapper
      * @see Find::__construct() for supported options
      * @param array|object $filter  Query by which to filter documents
      * @param array        $options Additional options
-     * @return Cursor
+     * @return CursorInterface&Iterator
      */
     public function findFiles($filter, array $options = [])
     {
@@ -265,7 +262,7 @@ class CollectionWrapper
     {
         return $this->filesCollection->updateOne(
             ['_id' => $id],
-            ['$set' => ['filename' => $filename]]
+            ['$set' => ['filename' => $filename]],
         );
     }
 
