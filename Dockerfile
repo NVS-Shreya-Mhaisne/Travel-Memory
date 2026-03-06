@@ -7,7 +7,10 @@ RUN apt-get update && apt-get install -y \
     libssl-dev \
     pkg-config
 
-# Install MongoDB extension version compatible with PHP 8.2
+# Force rebuild
+RUN echo "force build"
+
+# Install MongoDB extension
 RUN pecl install mongodb-1.17.0 \
     && docker-php-ext-enable mongodb
 
