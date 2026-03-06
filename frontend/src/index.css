@@ -1,0 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: 'Quicksand', sans-serif;
+  }
+}
+
+/* xs breakpoint utility */
+@media (min-width: 480px) {
+  .xs\:inline {
+    display: inline;
+  }
+}
+.xs\:inline {
+  display: none;
+}
