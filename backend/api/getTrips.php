@@ -11,38 +11,54 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 header("Content-Type: application/json");
 
-// Get userId from header with fallbacks
+// Get headers
 $headers = getallheaders();
-$userId = $headers['X-User-Id'] ?? $headers['x-user-id'] ?? $_SERVER['HTTP_X_USER_ID'] ?? "";
 
+// Get userId from multiple sources
+$userId =
+    $headers['X-User-Id']
+    ?? $headers['x-user-id']
+    ?? $_SERVER['HTTP_X_USER_ID']
+    ?? $_GET['userId']
+    ?? "";
+
+// Validate userId
 if (!$userId) {
-    echo json_encode(["status" => false, "message" => "Unauthorized access"]);
+    echo json_encode([
+        "status" => false,
+        "message" => "Unauthorized access"
+    ]);
     exit;
 }
 
-$cursor = $db->trips->find(["userId" => $userId], ["sort" => ["createdAt" => -1]]);
+// Fetch trips
+$cursor = $db->trips->find(
+    ["userId" => $userId],
+    ["sort" => ["createdAt" => -1]]
+);
 
-$data=[];
+$data = [];
 
-foreach($cursor as $doc){
-    // Convert Mongo BSON to normal array
+foreach ($cursor as $doc) {
+
+    // Convert BSON to array
     $doc = json_decode(json_encode($doc), true);
 
     // Convert Mongo _id
     $doc["id"] = $doc["_id"]['$oid'] ?? "";
     unset($doc["_id"]);
 
-    // Validate startDate
+    // Format startDate safely
     if (isset($doc['startDate']) && strtotime($doc['startDate']) !== false) {
         $doc['startDate'] = date('Y-m-d', strtotime($doc['startDate']));
     } else {
-        $doc['startDate'] = null; // Set to null if invalid or missing
+        $doc['startDate'] = null;
     }
 
-    $data[]=$doc;
+    $data[] = $doc;
 }
 
 echo json_encode([
-   "status"=>true,
-   "data"=>$data
+    "status" => true,
+    "data" => $data
 ]);

@@ -176,5 +176,5 @@ if ($action === "add_images" && !empty($updateData["images"])) {
 
 echo json_encode([
     "status" => true,
-    "message" => "Trip Updated Successfully ❤️"
+    "message" => "Trip Updated Successfully"
 ]);
