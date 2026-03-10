@@ -74,7 +74,7 @@ const Register = () => {
             name: formData.fullName,
             email: formData.email
           });
-          navigate("/dashboard");
+          navigate("/");
         } else {
           setErrors({ ...errors, email: response.data.message });
         }

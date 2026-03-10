@@ -70,7 +70,7 @@ const Login = () => {
       if (res.data.status) {
         login(res.data.user);
         showToast('Logged in', 'success');
-        navigate("/dashboard");
+        navigate("/");
       } else {
         setErrors({ password: res.data.message });
       }
