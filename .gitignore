@@ -9,8 +9,7 @@ build/
 # Logs
 npm-debug.log*
 
-# Uploads
-uploads/
+
 
 # OS files
 .DS_Store
