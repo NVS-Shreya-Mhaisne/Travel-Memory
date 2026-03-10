@@ -11,8 +11,8 @@ const Login = () => {
   const { showToast } = useToast();
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
-    email: "",
-    password: "",
+    email: "shreya@gmail.com",
+    password: "123456",
     rememberMe: false
   });
   const [errors, setErrors] = useState({});
