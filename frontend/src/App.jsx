@@ -18,7 +18,7 @@ function App() {
         <BrowserRouter>
           <Navbar />
           <Routes>
-            <Route path="/" element={<Login />} />
+            <Route path="/" element={<Home />} />
             <Route path="/dashboard" element={
               <ProtectedRoute>
                 <Dashboard />
