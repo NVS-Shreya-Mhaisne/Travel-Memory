@@ -18,24 +18,24 @@ function App() {
         <BrowserRouter>
           <Navbar />
           <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/dashboard" element={
-            <ProtectedRoute>
-              <Dashboard />
-            </ProtectedRoute>
-          } />
-          <Route path="/add-trip" element={
-            <ProtectedRoute>
-              <AddTrip />
-            </ProtectedRoute>
-          } />
-          <Route path="/trip/:id" element={
-            <ProtectedRoute>
-              <TripDetails />
-            </ProtectedRoute>
-          } />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+            <Route path="/" element={<Login />} />
+            <Route path="/dashboard" element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            } />
+            <Route path="/add-trip" element={
+              <ProtectedRoute>
+                <AddTrip />
+              </ProtectedRoute>
+            } />
+            <Route path="/trip/:id" element={
+              <ProtectedRoute>
+                <TripDetails />
+              </ProtectedRoute>
+            } />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
           </Routes>
           <Footer />
         </BrowserRouter>
